@@ -6,7 +6,7 @@
 sudo docker-compose up -d
 ```
 
-## Database migration
+## Database Migration
 ```
 alembic upgrade head
 ```

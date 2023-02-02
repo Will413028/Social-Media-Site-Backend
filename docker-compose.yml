@@ -15,5 +15,7 @@ services:
     image: social-media-site-backend
     restart: always
     container_name: social-media-site-backend
+    depends_on:
+      - "database"
     ports:
       - 8000:9000
