@@ -1,8 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, File, UploadFile
 from sqlalchemy.orm import Session
 from schemas.post import PostBase, PostDisplay
 from database.base import get_db_session
 from core import post
+import random, string, shutil
+
 
 router = APIRouter(
     prefix='/posts',
@@ -30,3 +32,16 @@ def create_post(request: PostBase, db: Session = Depends(get_db_session)):
         return post.create_post(db, request)
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+
+@router.post('/image')
+def upload_image(image: UploadFile = File(...)):
+    letters = string.ascii_letters
+    rand_str = ''.join(random.choice(letters + string.digits) for i in range(6))
+    new = f'_{rand_str}.'
+    filenamw = new.join(image.filename.rsplit('.', 1))
+    path = f'images/{filenamw}'
+
+    with open(path, 'w+b') as buffer:
+        shutil.copyfileobj(image.file, buffer)
+
+    return {'filename': path}
