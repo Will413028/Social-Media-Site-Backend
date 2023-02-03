@@ -12,7 +12,7 @@ class User(Base):
     posts = relationship('Post', back_populates='user')
 
 class Post(Base):
-    __tablename__ = 'Post'
+    __tablename__ = 'post'
     id = Column(Integer, primary_key=True, index=True)
     image_url = Column(String(255))
     image_url_type = Column(String(36))

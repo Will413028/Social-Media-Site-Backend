@@ -9,9 +9,9 @@ class User(BaseModel):
 
 class PostBase(BaseModel):
     image_url: str
-    image_url_type = str
+    image_url_type : str
     caption: str
-    creator_id: int
+    user_id: int
 
 class PostDisplay(BaseModel):
     id: int

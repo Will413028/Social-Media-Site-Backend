@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from schemas.user import UserDisplay, UserBase
 from database.base import get_db_session
@@ -25,4 +25,4 @@ def create_user(request: UserBase, db: Session = Depends(get_db_session)):
     try:
         return user.create_user(db, request)
     except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
