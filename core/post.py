@@ -37,3 +37,23 @@ def create_post(db: Session, request: PostBase):
     except Exception as e:
         db.rollback()
         raise Exception(str(e))
+
+def delete_post(db: Session, id: int, user_id: int):
+    post = db.query(Post).filter(Post.id == id).first()
+
+    if not post:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, 
+        detail=f'Post with id {id} not found')
+
+    if post.user_id!= user_id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, 
+        detail=f'You are not allowed to delete this post')
+
+    try:
+        db.delete(post)
+        db.commit()
+        return "Delete post successfully"
+
+    except Exception as e:
+        db.rollback()
+        raise Exception(str(e))

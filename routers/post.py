@@ -29,10 +29,11 @@ def get_post(id: int, db: Session = Depends(get_db_session)):
 def create_post(request: PostBase, db: Session = Depends(get_db_session), current_user: UserBase = Depends(get_current_user)):
     if not request.image_url_type in image_url_types:
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail='image_url_type must be absolute or relative')
-    try:
-        return post.create_post(db, request)
-    except Exception as e:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    return post.create_post(db, request)
+
+@router.delete('/{id}')
+def delete_post(id: int, db: Session = Depends(get_db_session), current_user: UserBase = Depends(get_current_user)):
+    return post.delete_post(db, id, current_user.id)
 
 @router.post('/image')
 def upload_image(image: UploadFile = File(...)):
