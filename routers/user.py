@@ -22,7 +22,4 @@ def get_user(id: int, db: Session = Depends(get_db_session)):
 
 @router.post('', response_model=UserDisplay)
 def create_user(request: UserBase, db: Session = Depends(get_db_session)):
-    try:
-        return user.create_user(db, request)
-    except Exception as e:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+    return user.create_user(db, request)

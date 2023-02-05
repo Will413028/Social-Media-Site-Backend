@@ -36,7 +36,7 @@ def create_post(db: Session, request: PostBase):
         return new_post
     except Exception as e:
         db.rollback()
-        raise Exception(str(e))
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
 def delete_post(db: Session, id: int, user_id: int):
     post = db.query(Post).filter(Post.id == id).first()
