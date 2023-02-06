@@ -7,7 +7,6 @@ from datetime import datetime
 
 def get_all_posts(db: Session):
     posts = db.query(Post).all()
-
     return posts 
 
 

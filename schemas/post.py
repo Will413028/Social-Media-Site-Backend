@@ -1,11 +1,7 @@
 from pydantic import BaseModel
 from datetime import datetime
-
-
-class User(BaseModel):
-    username: str
-    class Config():
-        orm_mode = True
+from schemas.user import User
+from schemas.comment import Comment
 
 class PostBase(BaseModel):
     image_url: str
@@ -20,5 +16,6 @@ class PostDisplay(BaseModel):
     caption: str
     timestamp: datetime
     user: User
+    comments: list[Comment]
     class Config():
         orm_mode = True
