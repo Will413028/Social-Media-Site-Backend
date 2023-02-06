@@ -2,8 +2,9 @@ from fastapi import APIRouter, Depends, HTTPException, status, File, UploadFile
 from sqlalchemy.orm import Session
 from schemas.post import PostBase, PostDisplay
 from schemas.user import UserBase
+from schemas.comment import CommentBase, Comment
 from database.base import get_db_session
-from core import post
+from core import post, comment
 import random, string, shutil
 from utils.oauth2 import get_current_user
 
@@ -47,3 +48,16 @@ def upload_image(image: UploadFile = File(...)):
         shutil.copyfileobj(image.file, buffer)
 
     return {'filename': path}
+
+@router.get('/{id}/comment', response_model=list[Comment])
+def get_all_comments_of_post(id: int, db: Session = Depends(get_db_session)):
+    return comment.get_all_comments(db, id)
+
+
+@router.post('/{id}/comment', response_model=Comment)
+def create_comment_for_post(id: int, request: CommentBase, db: Session = Depends(get_db_session), current_user: UserBase = Depends(get_current_user)):
+    user_id = current_user.id
+    try:
+        return comment.create_comment(db, request, id, user_id)
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
