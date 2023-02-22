@@ -10,3 +10,8 @@ sudo docker-compose up -d
 ```
 alembic upgrade head
 ```
+
+## Build docker image
+```
+sudo docker build -t <image_name>:<tag_name> .
+```

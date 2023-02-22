@@ -8,8 +8,8 @@ services:
     ports:
       - 4000:3306
     environment:
-      - MYSQL_ROOT_PASSWORD=1234
-      - MYSQL_DATABASE=social-web-db
+      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_DATABASE=
   
   backend:
     image: social-media-site-backend
@@ -19,3 +19,14 @@ services:
       - "database"
     ports:
       - 8000:9000
+    environment:
+      - DATABASE_DIALECT=
+      - DATABASE_DRIVER=
+      - DATABASE_USERNAME=
+      - DATABASE_PASSWORD=
+      - DATABASE_HOST=
+      - DATABASE_PORT=
+      - DATABASE_DBNAME=
+      - SECRET_KEY=
+      - ALGORITHM=
+      - ACCESS_TOKEN_EXPIRE_MINUTES=
