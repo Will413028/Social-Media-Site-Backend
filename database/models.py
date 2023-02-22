@@ -1,5 +1,5 @@
 from database.base import Base
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, DateTime, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
 
 
@@ -31,3 +31,32 @@ class Comment(Base):
     post = relationship('Post', back_populates="comments")
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship('User', back_populates="comments")
+
+class Like(Base):
+    __tablename__ = 'like'
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    user = relationship('User')
+    post_id = Column(Integer, ForeignKey('post.id'))
+    post = relationship('Post')
+    comment_id = Column(Integer, ForeignKey('comment.id'))
+    comment = relationship('Comment')
+    timestamp = Column(DateTime)
+
+class Follower(Base):
+    __tablename__ = 'follower'
+    id = Column(Integer, primary_key=True, index=True)
+    follower_id = Column(Integer, ForeignKey('user.id'))
+    follower = relationship('User', backref="follower", uselist=False, foreign_keys=[follower_id])
+    followee_id = Column(Integer, ForeignKey('user.id'))
+    follower = relationship('User', backref="followee_id", uselist=False, foreign_keys=[followee_id])
+class Message(Base):
+    __tablename__ = 'message'
+    id = Column(Integer, primary_key=True, index=True)
+    message = Column(String(255))
+    sender_id = Column(Integer, ForeignKey('user.id'))
+    sender = relationship('User', backref="sender_of_message", uselist=False, foreign_keys=[sender_id])
+    receiver_id = Column(Integer, ForeignKey('user.id'))
+    receiver = relationship('User', backref="receiver_of_message", uselist=False, foreign_keys=[receiver_id])
+    status = Column(Boolean)
+    timestamp = Column(DateTime)
