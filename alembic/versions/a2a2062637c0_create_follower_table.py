@@ -1,4 +1,4 @@
-"""create following table
+"""create follower table
 
 Revision ID: a2a2062637c0
 Revises: 7809a737c0d7
@@ -17,14 +17,13 @@ depends_on = None
 
 
 def upgrade() -> None:
-    op.create_table('following',
+    op.create_table('follower',
     sa.Column('id', sa.Integer, primary_key=True),
-    sa.Column('user_id', sa.Integer, nullable=False),
     sa.Column('follower_id', sa.Integer, nullable=False),
-    sa.Column('timestamp', sa.DateTime, nullable=False),
-    sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
+    sa.Column('followee_id', sa.Integer, nullable=False),
     sa.ForeignKeyConstraint(['follower_id'], ['user.id'], ),
+    sa.ForeignKeyConstraint(['followee_id'], ['user.id'], )
     )
 
 def downgrade() -> None:
-    op.drop_table('following')
+    op.drop_table('follower')

@@ -21,11 +21,11 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer, primary_key=True),
     sa.Column('message', sa.String(255), nullable=True),
     sa.Column('sender_id', sa.Integer, nullable=False),
-    sa.Column('receiver_id', sa.Integer, nullable=False),
+    sa.Column('recipient_id', sa.Integer, nullable=False),
     sa.Column('status', sa.Boolean, nullable=True),
     sa.Column('timestamp', sa.DateTime, nullable=False),
     sa.ForeignKeyConstraint(['sender_id'], ['user.id'], ),
-    sa.ForeignKeyConstraint(['receiver_id'], ['user.id'], )
+    sa.ForeignKeyConstraint(['recipient_id'], ['user.id'], )
     )
 
 def downgrade() -> None:
