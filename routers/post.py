@@ -16,7 +16,7 @@ router = APIRouter(
 image_url_types = ['absolute', 'relative']
 
 
-@router.get('/', response_model=list[PostDisplay])
+@router.get('', response_model=list[PostDisplay])
 def get_posts(db: Session = Depends(get_db_session)):
     return post.get_all_posts(db)
 

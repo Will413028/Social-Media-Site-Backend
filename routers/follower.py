@@ -11,6 +11,6 @@ router = APIRouter(
     tags=['followers']
 )
 
-@router.post('/')
-def create_follower(follower_id: int, db: Session = Depends(get_db_session), current_user: UserBase = Depends(get_current_user)):
-    return follower.create_follower(db, follower_id, current_user.id)
+@router.post('')
+def create_followee(followee_id: int, db: Session = Depends(get_db_session), current_user: UserBase = Depends(get_current_user)):
+    return follower.create_followee(db, followee_id, current_user.id)
