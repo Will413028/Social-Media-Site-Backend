@@ -11,10 +11,12 @@ router = APIRouter(
     tags=['followers']
 )
 
+
 @router.post('')
-def create_followee(followee_id: int, db: Session = Depends(get_db_session), current_user: UserBase = Depends(get_current_user)):
-    return follower.create_followee(db, followee_id, current_user.id)
+def create_follow(followee_id: int, db: Session = Depends(get_db_session), current_user: UserBase = Depends(get_current_user)):
+    return follower.create_follow(db, followee_id, current_user.id)
+
 
 @router.delete('/{followee_id}')
-def delete_post(followee_id: int, db: Session = Depends(get_db_session), current_user: UserBase = Depends(get_current_user)):
-    return follower.delete_followee(db, followee_id, current_user.id)
+def cancel_follow(followee_id: int, db: Session = Depends(get_db_session), current_user: UserBase = Depends(get_current_user)):
+    return follower.cancel_follow(db, followee_id, current_user.id)

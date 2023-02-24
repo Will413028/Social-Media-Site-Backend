@@ -18,12 +18,13 @@ depends_on = None
 
 def upgrade() -> None:
     op.create_table('follower',
-    sa.Column('id', sa.Integer, primary_key=True),
-    sa.Column('follower_id', sa.Integer, nullable=False),
-    sa.Column('followee_id', sa.Integer, nullable=False),
-    sa.ForeignKeyConstraint(['follower_id'], ['user.id'], ),
-    sa.ForeignKeyConstraint(['followee_id'], ['user.id'], )
-    )
+                    sa.Column('id', sa.Integer, primary_key=True),
+                    sa.Column('follower_id', sa.Integer, nullable=False),
+                    sa.Column('followee_id', sa.Integer, nullable=False),
+                    sa.ForeignKeyConstraint(['follower_id'], ['user.id'], ),
+                    sa.ForeignKeyConstraint(['followee_id'], ['user.id'], )
+                    )
+
 
 def downgrade() -> None:
     op.drop_table('follower')

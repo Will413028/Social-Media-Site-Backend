@@ -14,7 +14,8 @@ oauth2_schema = OAuth2PasswordBearer(tokenUrl="login")
 SECRET_KEY = settings.SECRET_KEY
 ALGORITHM = settings.ALGORITHM
 ACCESS_TOKEN_EXPIRE_MINUTES = settings.ACCESS_TOKEN_EXPIRE_MINUTES
- 
+
+
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
     if expires_delta:
@@ -24,6 +25,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
+
 
 def get_current_user(token: str = Depends(oauth2_schema), db: Session = Depends(get_db_session)):
     credentials_exception = HTTPException(
@@ -38,9 +40,9 @@ def get_current_user(token: str = Depends(oauth2_schema), db: Session = Depends(
             raise credentials_exception
     except JWTError:
         raise credentials_exception
-    
+
     current_user = user.get_user_by_username(db, username=username)
-    
+
     if current_user is None:
         raise credentials_exception
     return current_user

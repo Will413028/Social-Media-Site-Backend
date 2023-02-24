@@ -18,14 +18,15 @@ depends_on = None
 
 def upgrade() -> None:
     op.create_table('comment',
-    sa.Column('id', sa.Integer, primary_key=True),
-    sa.Column('text', sa.String(255), nullable=True),
-    sa.Column('timestamp', sa.DateTime, nullable=True),
-    sa.Column('post_id', sa.Integer, nullable=True),
-    sa.ForeignKeyConstraint(['post_id'], ['post.id'], ),
-    sa.Column('user_id', sa.Integer, nullable=True),
-    sa.ForeignKeyConstraint(['user_id'], ['user.id'], )
-    )
+                    sa.Column('id', sa.Integer, primary_key=True),
+                    sa.Column('text', sa.String(255), nullable=True),
+                    sa.Column('timestamp', sa.DateTime, nullable=True),
+                    sa.Column('post_id', sa.Integer, nullable=True),
+                    sa.ForeignKeyConstraint(['post_id'], ['post.id'], ),
+                    sa.Column('user_id', sa.Integer, nullable=True),
+                    sa.ForeignKeyConstraint(['user_id'], ['user.id'], )
+                    )
+
 
 def downgrade() -> None:
     op.drop_table('comment')
